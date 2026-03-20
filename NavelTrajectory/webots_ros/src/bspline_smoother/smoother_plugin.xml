@@ -1,0 +1,9 @@
+<library path="bspline_smoother">
+  <class type="bspline_smoother::BSplineSmoother" 
+         base_class_type="nav2_core::Smoother">
+    <description>
+      Kubischer B-Spline Pfadglätter basierend auf dem Cox-de-Boor-Algorithmus.
+      Erzeugt glatte, stetig differenzierbare Pfade.
+    </description>
+  </class>
+</library>

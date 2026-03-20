@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<robot name="navel_robot">
+
+
+  <link name="base_link"/>
+
+ 
+  <link name="left_wheel_link">
+  </link>
+
+  <joint name="left wheel" type="continuous">
+    <parent link="base_link"/>
+    <child link="left_wheel_link"/>
+  
+    <origin xyz="0 0.165 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <link name="right_wheel_link">
+  </link>
+
+  <joint name="right wheel" type="continuous">
+    <parent link="base_link"/>
+    <child link="right_wheel_link"/>
+    <origin xyz="0 -0.165 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+
+  <link name="lidar_left_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.03" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="lidar_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_left_link"/>
+    <origin xyz="0.10 0.05 0.20" rpy="0 0 0"/>
+  </joint>
+
+  <link name="lidar_right_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.03" length="0.05"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="lidar_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_right_link"/>
+    <origin xyz="0.10 -0.05 0.20" rpy="0 0 0"/>
+  </joint>
+
+
+  <link name="head_camera_link">
+    <visual>
+      <geometry>
+        <box size="0.04 0.04 0.04"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="head_camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="head_camera_link"/>
+    <origin xyz="0.15 0.00 0.40" rpy="0 0 0"/>
+  </joint>
+
+
+  <link name="wide_angle_camera_link">
+    <visual>
+      <geometry>
+        <box size="0.04 0.04 0.04"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="wide_angle_camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="wide_angle_camera_link"/>
+    <origin xyz="0.16 0.00 0.38" rpy="0 0 0"/>
+  </joint>
+
+
+  <link name="so1_link"/>
+  <joint name="so1_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="so1_link"/>
+    <origin xyz="0.20 0.10 0.10" rpy="0 0 0"/>
+  </joint>
+
+  <link name="so2_link"/>
+  <joint name="so2_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="so2_link"/>
+    <origin xyz="0.20 -0.10 0.10" rpy="0 0 0"/>
+  </joint>
+
+  <link name="so3_link"/>
+  <joint name="so3_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="so3_link"/>
+    <origin xyz="-0.10 0.10 0.10" rpy="0 0 0"/>
+  </joint>
+
+  <link name="so4_link"/>
+  <joint name="so4_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="so4_link"/>
+    <origin xyz="-0.10 -0.10 0.10" rpy="0 0 0"/>
+  </joint>
+
+
+  <webots>
+
+    <device reference="left wheel sensor" type="PositionSensor">
+      <ros>
+        <topicName>/left_wheel_sensor</topicName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="right wheel sensor" type="PositionSensor">
+      <ros>
+        <topicName>/right_wheel_sensor</topicName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="left wheel" type="RotationalMotor">
+      <ros>
+        <topicName>/left_wheel/velocity</topicName>
+      </ros>
+    </device>
+
+    <device reference="right wheel" type="RotationalMotor">
+      <ros>
+        <topicName>/right_wheel/velocity</topicName>
+      </ros>
+    </device>
+
+    <device reference="head_camera" type="Camera">
+      <ros>
+        <topicName>/head_camera</topicName>
+        <frameName>head_camera_link</frameName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="2dwide_angle_camera" type="Camera">
+      <ros>
+        <topicName>/2dwide_angle_camera</topicName>
+        <frameName>wide_angle_camera_link</frameName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="lidar_right" type="Lidar">
+      <ros>
+        <topicName>/lidar_right</topicName>
+        <frameName>lidar_right_link</frameName>
+        <publishLaserScan>true</publishLaserScan>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="lidar_left" type="Lidar">
+      <ros>
+        <topicName>/lidar_left</topicName>
+        <frameName>lidar_left_link</frameName>
+        <publishLaserScan>true</publishLaserScan>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="so1" type="DistanceSensor">
+      <ros>
+        <topicName>/so1</topicName>
+        <frameName>so1_link</frameName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="so2" type="DistanceSensor">
+      <ros>
+        <topicName>/so2</topicName>
+        <frameName>so2_link</frameName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="so3" type="DistanceSensor">
+      <ros>
+        <topicName>/so3</topicName>
+        <frameName>so3_link</frameName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <device reference="so4" type="DistanceSensor">
+      <ros>
+        <topicName>/so4</topicName>
+        <frameName>so4_link</frameName>
+        <alwaysOn>true</alwaysOn>
+      </ros>
+    </device>
+
+    <plugin type="my_package.navel_driver.NavelDriver"/>
+
+  </webots>
+
+</robot>
