@@ -1,0 +1,510 @@
+#Alle Parameterwerte wurden für den Pioneer 3-DX in einer Webots-Innenraumsimulation
+#mit dem Visitor-Guidance-Szenario kalibriert. Als Referenzkonfiguration dient die
+#offizielle Nav2-Standardkonfiguration (Open Navigation LLC, 2024a); Abweichungen
+#davon werden nachfolgend begründet.
+
+amcl:
+  ros__parameters:
+    alpha1: 0.05  # Rotation variance from rotation
+    alpha2: 0.05  # Rotation variance from translation  
+    alpha3: 0.1   # Translation variance from translation
+    alpha4: 0.05  # Translation variance from rotation
+    alpha5: 0.05  # Strafe variance (not used for diff-drive)
+    base_frame_id: "base_link"
+    introspection_mode: "contents"
+    beam_skip_distance: 0.5
+    beam_skip_error_threshold: 0.9
+    beam_skip_threshold: 0.3
+    do_beamskip: false
+    global_frame_id: "map"
+    lambda_short: 0.1
+    laser_likelihood_max_dist: 2.0
+    laser_max_range: 100.0
+    laser_min_range: -1.0
+    laser_model_type: "likelihood_field"
+    max_beams: 60
+    max_particles: 5000 #increase for tighter space
+    min_particles: 1000 #same
+    odom_frame_id: "odom"
+    pf_err: 0.02  #less error for more accuracy, but more particles needed
+    pf_z: 0.99
+    random_seed: -1
+    recovery_alpha_fast: 0.0
+    recovery_alpha_slow: 0.0
+    resample_interval: 1
+    robot_model_type: "nav2_amcl::DifferentialMotionModel"
+    save_pose_rate: 0.5
+    sigma_hit: 0.2
+    tf_broadcast: true
+    transform_tolerance: 1.0
+    tf_buffer_duration: 30.0
+    update_min_a: 0.1
+    update_min_d: 0.1
+    z_hit: 0.5
+    z_max: 0.05
+    z_rand: 0.5
+    z_short: 0.05
+    scan_topic: scan
+    map_topic: map
+    set_initial_pose: True
+    always_reset_initial_pose: false
+    first_map_only: false
+    initial_pose:
+      x: -1.883
+      y: 0.0
+      z: 0.0
+      yaw: -1.50
+    qos_overrides:
+      /particle_cloud:
+        publisher:
+          reliability: reliable  # Change from default (best_effort) to reliable
+
+bt_navigator:
+  ros__parameters:
+    global_frame: map
+    robot_base_frame: base_link
+    odom_topic: odom
+    default_nav_to_pose_bt_xml: "$(find-pkg-share my_package)/config/nav_to_pose_w_replanning_and_recovery_base.xml"
+behavior_server:
+  ros__parameters:
+    local_costmap_topic: local_costmap/costmap_raw
+    local_footprint_topic: local_costmap/published_footprint
+    global_costmap_topic: global_costmap/costmap_raw
+    global_footprint_topic: global_costmap/published_footprint
+    cycle_frequency: 10.0
+    behavior_plugins: ["spin", "backup", "drive_on_heading", "wait", "assisted_teleop"]
+    spin:
+      plugin: "nav2_behaviors::Spin" # In Iron and older versions, "/" was used instead of "::"
+    backup:
+      plugin: "nav2_behaviors::BackUp" # In Iron and older versions, "/" was used instead of "::"
+    drive_on_heading:
+      plugin: "nav2_behaviors::DriveOnHeading" # In Iron and older versions, "/" was used instead of "::"
+    wait:
+      plugin: "nav2_behaviors::Wait" # In Iron and older versions, "/" was used instead of "::"
+    assisted_teleop:
+      plugin: "nav2_behaviors::AssistedTeleop" # In Iron and older versions, "/" was used instead of "::"
+    local_frame: odom
+    global_frame: map
+    robot_base_frame: base_link
+    transform_tolerance: 0.1
+    simulate_ahead_time: 2.0
+    max_rotational_vel: 1.0
+    min_rotational_vel: 0.4
+    rotational_acc_lim: 3.2
+    enable_stamped_cmd_vel: False  # default false in Jazzy or older
+
+
+velocity_smoother:
+  ros__parameters:
+    smoothing_frequency: 20.0
+    scale_velocities: false
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.5, 0.0, 2.5]
+    min_velocity: [-0.5, 0.0, -2.5]
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
+    max_accel: [2.5, 0.0, 3.2]
+    max_decel: [-2.5, 0.0, -3.2]
+    odom_topic: "odom"
+    odom_duration: 0.1
+    use_realtime_priority: false
+    enable_stamped_cmd_vel: False
+    stamp_smoothed_velocity_with_smoothing_time: True # ONLY IN JAZZY
+
+controller_server:
+  ros__parameters:
+    #use_trajectory_smoother: true
+    #smoother_timeout: 0.05
+    controller_frequency: 20.0
+    costmap_update_timeout: 0.3
+    min_x_velocity_threshold: 0.001
+    min_y_velocity_threshold: 0.0 #because differential drive cant srafe in y direction
+    min_theta_velocity_threshold: 0.001
+    failure_tolerance: 0.3
+    odom_topic: "/odom"
+    odom_duration: 0.3
+    current_goal_checker: "goal_checker"
+    current_progress_checker: "progress_checker"
+    progress_checker_plugins: ["progress_checker"] # progress_checker_plugin: "progress_checker" For Humble and older
+    goal_checker_plugins: ["goal_checker"] # goal_checker_plugin: "goal_checker" For Galactic and older
+    path_handler_plugins: ["PathHandler"]
+    controller_plugins: ["FollowPath"]
+    progress_checker:
+      plugin: "nav2_controller::SimpleProgressChecker"
+      required_movement_radius: 0.1
+      movement_time_allowance: 5.0
+    goal_checker:
+      plugin: "nav2_controller::SimpleGoalChecker"
+      xy_goal_tolerance: 0.25
+      yaw_goal_tolerance: 0.4
+      path_length_tolerance: 1.0
+      stateful: True
+    PathHandler:
+      plugin: "nav2_controller::FeasiblePathHandler"
+      prune_distance: 2.0
+      enforce_path_inversion: True
+      enforce_path_rotation: False
+      inversion_xy_tolerance: 0.2
+      inversion_yaw_tolerance: 0.4
+      minimum_rotation_angle: 0.785
+      reject_unit_path: False
+    FollowPath:
+      plugin: "dwb_core::DWBLocalPlanner"
+      holonomic_robot: false
+      odom_topic: "/odom"
+      lookahead_time: 1.0
+      transform_tolerance: 0.1
+
+      # ── Geschwindigkeitslimits ──
+      min_vel_x: 0.0
+      max_vel_x: 0.4
+      min_vel_y: 0.0
+      max_vel_y: 0.0
+      max_vel_theta: 0.8         
+      min_speed_xy: 0.0
+      max_speed_xy: 0.5
+      min_speed_theta: 0.0        
+      max_speed_theta: 0.8
+
+      # ── Beschleunigung ──
+      acc_lim_x: 1.0
+      acc_lim_theta: 1.8         
+      decel_lim_x: -1.0
+      decel_lim_theta: -1.8
+
+      # ── Sampling ──
+      vx_samples: 20
+      vy_samples: 1
+      vtheta_samples: 40           # Hoch von 20 — feinere Winkelauflösung
+      sim_time: 1.0              # Runter von 1.5 — kürzere Vorausschau verhindert Overshoot
+      linear_granularity: 0.05
+      angular_granularity: 0.0015    # Feiner von 0.025
+
+      # ── Critics ──
+      critics: ["RotateToGoal", "Oscillation", "BaseObstacle", "GoalAlign", "PathAlign", "GoalDist", "PathDist"]
+
+      RotateToGoal:
+        plugin: "dwb_critics::RotateToGoalCritic"
+        slowing_factor: 5.0
+        lookahead_time: -1.0
+        scale: 48.0               # Deutlich hochgewichtet
+
+      Oscillation:
+        plugin: "dwb_critics::OscillationCritic"
+        oscillation_reset_dist: 0.05
+        oscillation_reset_angle: 0.2   # Früheres Reset nach kleiner Korrektur
+
+      BaseObstacle:
+        plugin: "dwb_critics::BaseObstacleCritic"
+
+      GoalAlign:
+        plugin: "dwb_critics::GoalAlignCritic"
+
+      PathAlign:
+        plugin: "dwb_critics::PathAlignCritic"
+
+      GoalDist:
+        plugin: "dwb_critics::GoalDistCritic"
+
+      PathDist:
+        plugin: "dwb_critics::PathDistCritic"
+
+      
+
+planner_server:
+  ros__parameters:
+    allow_partial_planning: false
+    expected_planner_frequency: 20.0
+    # Increase transform tolerance to tolerate initial /clock/TF startup skew
+    transform_tolerance: 5.0
+    costmap_update_timeout: 1.0
+    introspection_mode: "disabled"
+    use_astar: false # uses Dijkstra by default, which is better for dynamic obstacles, but A* can be faster for large maps with few obstacles
+    planner_plugins: ['GridBased']
+    GridBased:
+      plugin: 'nav2_navfn_planner::NavfnPlanner' # In Iron and older versions, "/" was used instead of "::"
+
+global_costmap:
+  global_costmap:
+    ros__parameters:
+      always_send_full_costmap: True #for debugging
+      # Allow larger transform tolerance while simulation starts
+      transform_tolerance: 5.0
+      footprint_padding: 0.03
+      update_frequency: 1.0
+      publish_frequency: 1.0
+      global_frame: map
+      robot_base_frame: base_link
+      robot_radius: 0.22 # radius set and used, so no footprint points
+      resolution: 0.05
+      plugins: ["static_layer", "obstacle_layer", "voxel_layer", "inflation_layer"]
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: scan
+        footprint_clearing_enabled: true
+        max_obstacle_height: 2.0
+        combination_method: 1
+        scan:
+          topic: /scan
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.0
+          clearing: True
+          marking: True
+          data_type: "LaserScan"
+          inf_is_valid: false
+      voxel_layer:
+        plugin: "nav2_costmap_2d::VoxelLayer"
+        enabled: True
+        footprint_clearing_enabled: true
+        max_obstacle_height: 2.0
+        publish_voxel_map: True
+        origin_z: 0.0
+        z_resolution: 0.05
+        z_voxels: 16
+        max_obstacle_height: 2.0
+        unknown_threshold: 15
+        mark_threshold: 0
+        observation_sources: pointcloud
+        combination_method: 1
+        pointcloud:  # no frame set, uses frame from message
+          topic: /intel_realsense_r200_depth/points
+          max_obstacle_height: 2.0
+          min_obstacle_height: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          clearing: True
+          marking: True
+          data_type: "PointCloud2"
+          transport_type: "raw"  # raw or/ with compression (zlib, draco, zstd)
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
+        enabled: true
+        subscribe_to_updates: true
+        transform_tolerance: 0.1
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        enabled: true
+        inflation_radius: 0.40 # Runter von 0.55 → 0.18m Puffer statt 0.33m
+        cost_scaling_factor: 2.5 # Hoch von 1.5 → steilerer Abfall, freier Korridor in Türmitte
+        inflate_unknown: false
+        inflate_around_unknown: true
+      always_send_full_costmap: True
+      introspection_mode: "disabled"
+
+route_server:
+  ros__parameters:
+    base_frame: "base_link"                       # Robot's base frame
+    route_frame: "map"                            # Global reference frame
+    path_density: 0.05                            # Density of points for generating the dense nav_msgs/Path from route (m)
+    max_iterations: 0                             # Maximum number of search iterations, if 0, uses maximum possible
+    max_planning_time: 2.0                        # Maximum planning time (seconds)
+    smoothing_corners: true                       # Whether to smooth corners formed by adjacent edges or not
+    smoothing_radius: 1.0                         # Radius of corner to fit into the corner
+
+    graph_file_loader: "GeoJsonGraphFileLoader"   # Name of default file loader
+    plugin: nav2_route::GeoJsonGraphFileLoader  # file loader plugin to use
+    graph_filepath: ""                            # file path to graph to use
+
+    edge_cost_functions: ["DistanceScorer", "DynamicEdgesScorer"]  # Edge scoring cost functions to use
+    DistanceScorer:
+      plugin: "nav2_route::DistanceScorer"
+    DynamicEdgesScorer:
+      plugin: "nav2_route::DynamicEdgesScorer"
+
+    operations: ["AdjustSpeedLimit", "ReroutingService"] # Route operations plugins to use
+    AdjustSpeedLimit:
+      plugin: "nav2_route::AdjustSpeedLimit"
+    ReroutingService:
+      plugin: "nav2_route::ReroutingService"
+
+    tracker_update_rate: 50.0                     # Rate at which to check the status of path tracking
+    aggregate_blocked_ids: false                  # Whether to aggregate the blocked IDs reported by route operations over the lifespan of the navigation request or only use the currently blocked IDs.
+    boundary_radius_to_achieve_node: 1.0          # Radius (m) near boundary nodes (e.g. start/end) to enable evaluation of achievement metric
+    radius_to_achieve_node: 2.0                   # Radius (m) near route nodes as preliminary condition for evaluation of achievement metric
+
+    max_prune_dist_from_edge: 8.0                       # Max distance from an edge to consider pruning it as in-progress (e.g. if we're too far away from the edge, its nonsensical to prune it)
+    min_prune_dist_from_goal: 0.15                      # Min distance from goal node away from goal pose to consider goal node pruning as considering it as being passed (in case goal pose is very close to a goal node, but not exact)
+    min_prune_dist_from_start: 0.10                     # Min distance from start node away from start pose to consider start node pruning as considering it as being passed (in case start pose is very close to a start node, but not exact)
+    prune_goal: true                              # Whether pruning the goal nodes from the route due to being past the goal pose requested is possible (pose requests only)
+
+local_costmap:
+  local_costmap:
+    ros__parameters:
+      always_send_full_costmap: True #for debugging
+      # Allow larger transform tolerance while simulation starts
+      transform_tolerance: 5.0
+      update_frequency: 5.0
+      publish_frequency: 2.0
+      global_frame: odom
+      robot_base_frame: base_link
+      rolling_window: true
+      width: 3  #width: 4 # bigger local map for better planning
+      height: 3 #height: 4
+      resolution: 0.05
+      introspection_mode: "disabled"
+      plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
+      static_layer:
+        plugin: "nav2_costmap_2d::StaticLayer"
+        map_subscribe_transient_local: True
+      obstacle_layer:
+        plugin: "nav2_costmap_2d::ObstacleLayer"
+        enabled: True
+        observation_sources: scan
+        scan:
+          topic: /scan
+          data_type: "LaserScan"
+          marking: True
+          clearing: True
+          obstacle_max_range: 2.5
+          raytrace_max_range: 3.0
+      inflation_layer:
+        plugin: "nav2_costmap_2d::InflationLayer"
+        inflation_radius: 0.40
+        cost_scaling_factor: 2.5
+
+map_server:
+  ros__parameters:
+    use_sim_time: True
+    yaml_filename: "my_map.yaml"  # Leave empty for dynamic map from SLAM
+
+waypoint_follower:
+  ros__parameters:
+    loop_rate: 20
+    stop_on_failure: false
+    waypoint_task_executor_plugin: "wait_at_waypoint"
+    introspection_mode: "disabled"
+    wait_at_waypoint:
+        plugin: "nav2_waypoint_follower::WaitAtWaypoint"
+        enabled: True
+        waypoint_pause_duration: 0
+
+smoother_server:
+  ros__parameters:
+    costmap_topic: global_costmap/costmap_raw
+    footprint_topic: global_costmap/published_footprint
+    robot_base_frame: base_link
+    transform_tolerance: 0.1
+    smoother_plugins: ["simple_smoother"]
+    simple_smoother:
+      plugin: "nav2_smoother::SimpleSmoother"
+      tolerance: 1.0e-10
+      do_refinement: True
+      w_smooth: 0.3      # Standardwert ist höher → weniger Glättung
+      w_data: 0.2        # zieht den Pfad zurück zum Original
+
+collision_monitor:
+  ros__parameters:
+    enabled: True
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    cmd_vel_in_topic: "cmd_vel_smoothed"
+    cmd_vel_out_topic: "cmd_vel"
+    state_topic: "collision_monitor_state"
+    transform_tolerance: 0.5
+    source_timeout: 5.0
+    base_shift_correction: True
+    stop_pub_timeout: 2.0
+    enable_stamped_cmd_vel: False  # False for Jazzy or older
+    use_realtime_priority: false
+    polygons: ["PolygonStop", "PolygonSlow"]
+    PolygonStop:
+      type: "circle"
+      radius: 0.24 # slightly bigger than robot radius for safety
+      action_type: "stop"
+      min_points: 6  # max_points: 3 for Humble
+      visualize: True
+      polygon_pub_topic: "polygon_stop"
+      enabled: True
+    PolygonSlow:
+      type: "polygon"
+      points: "[[0.4, 0.3], [0.4, -0.3], [-0.25, -0.3], [-0.25, 0.3]]" #for pioneer base
+      action_type: "slowdown"
+      min_points: 6  # max_points: 3 for Humble
+      slowdown_ratio: 0.5 # Hoch von 0.3 → weniger aggressives Bremsen
+      visualize: True
+      polygon_pub_topic: "polygon_slowdown"
+      enabled: True
+    PolygonLimit:
+      type: "polygon"
+      points: "[[0.5, 0.5], [0.5, -0.5], [-0.5, -0.5], [-0.5, 0.5]]"
+      action_type: "limit"
+      min_points: 4  # max_points: 3 for Humble
+      linear_limit: 0.4
+      angular_limit: 0.5
+      visualize: True
+      polygon_pub_topic: "polygon_limit"
+      enabled: True
+    FootprintApproach:
+      type: "polygon"
+      action_type: "approach"
+      footprint_topic: "/local_costmap/published_footprint"
+      time_before_collision: 2.0
+      simulation_time_step: 0.02
+      min_points: 6  # max_points: 5 for Humble
+      visualize: False
+      enabled: False
+    VelocityPolygonStop:
+      type: "velocity_polygon"
+      action_type: "stop"
+      min_points: 6
+      visualize: True
+      enabled: True
+      polygon_pub_topic: "velocity_polygon_stop"
+      velocity_polygons: ["rotation", "translation_forward", "translation_backward", "stopped"]
+      holonomic: false
+      rotation:
+        points: "[[0.3, 0.3], [0.3, -0.3], [-0.3, -0.3], [-0.3, 0.3]]"
+        linear_min: 0.0
+        linear_max: 0.05
+        theta_min: -2.0
+        theta_max: 2.0
+      translation_forward:
+        points: "[[0.35, 0.3], [0.35, -0.3], [-0.2, -0.3], [-0.2, 0.3]]"
+        linear_min: 0.0
+        linear_max: 1.0
+        theta_min: -1.0
+        theta_max: 1.0
+      translation_backward:
+        points: "[[0.2, 0.3], [0.2, -0.3], [-0.35, -0.3], [-0.35, 0.3]]"
+        linear_min: -1.0
+        linear_max: 0.0
+        theta_min: -1.0
+        theta_max: 1.0
+      # This is the last polygon to be checked, it should cover the entire range of robot's velocities
+      # It is used as the stopped polygon when the robot is not moving and as a fallback if the velocity
+      # is not covered by any of the other sub-polygons
+      stopped:
+        points: "[[0.25, 0.25], [0.25, -0.25], [-0.25, -0.25], [-0.25, 0.25]]"
+        linear_min: -1.0
+        linear_max: 1.0
+        theta_min: -2.0
+        theta_max: 2.0
+    observation_sources: ["scan"]
+    scan:
+      source_timeout: 1.0 # seconds before we consider the source stale, later maybe to 5.0 for real robot
+      type: "scan"
+      topic: "/scan"
+      enabled: True
+    pointcloud:
+      type: "pointcloud"
+      topic: "/intel_realsense_r200_depth/points"
+      transport_type: "raw"  # raw or/ with compression (zlib, draco, zstd)
+      min_height: 0.1
+      max_height: 0.5
+      min_range: 0.2
+      enabled: False
+    # costmap:
+    #   type: "costmap"   # relative, respects namespaces
+    #   topic: "local_costmap/costmap"
+    #   cost_threshold: 254
+    #   enabled: True
+    #   treat_unknown_as_obstacle: True
+  

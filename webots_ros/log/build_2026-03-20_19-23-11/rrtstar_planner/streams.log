@@ -1,0 +1,68 @@
+[0.353s] Invoking command in '/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/src/rrtstar_planner -DCMAKE_INSTALL_PREFIX=/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner
+[0.632s] -- The C compiler identification is GNU 13.3.0
+[1.434s] -- The CXX compiler identification is GNU 13.3.0
+[1.843s] -- Detecting C compiler ABI info
+[2.099s] -- Detecting C compiler ABI info - done
+[2.110s] -- Check for working C compiler: /usr/bin/cc - skipped
+[2.110s] -- Detecting C compile features
+[2.150s] -- Detecting C compile features - done
+[2.209s] -- Detecting CXX compiler ABI info
+[2.349s] -- Detecting CXX compiler ABI info - done
+[2.359s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[2.359s] -- Detecting CXX compile features
+[2.360s] -- Detecting CXX compile features - done
+[2.588s] -- Found ament_cmake: 2.5.5 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[3.130s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[3.898s] -- Found rclcpp: 28.1.16 (/opt/ros/jazzy/share/rclcpp/cmake)
+[4.686s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[4.963s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[5.232s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[5.398s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[6.709s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[6.769s] -- Found rmw_cyclonedds_cpp: 2.2.3 (/opt/ros/jazzy/share/rmw_cyclonedds_cpp/cmake)
+[7.356s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[8.375s] -- Found rclcpp_lifecycle: 28.1.16 (/opt/ros/jazzy/share/rclcpp_lifecycle/cmake)
+[8.878s] -- Found nav2_core: 1.3.10 (/opt/ros/jazzy/share/nav2_core/cmake)
+[10.984s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+[10.990s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[10.990s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[11.319s] -- Found TinyXML2 via Config file: /usr/lib/x86_64-linux-gnu/cmake/tinyxml2
+[11.802s] -- Configuring done (11.4s)
+[13.922s] -- Generating done (2.1s)
+[13.929s] -- Build files have been written to: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner
+[13.942s] Invoked command in '/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/src/rrtstar_planner -DCMAKE_INSTALL_PREFIX=/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner
+[13.944s] Invoking command in '/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner -- -j4 -l4
+[14.016s] [ 50%] [32mBuilding CXX object CMakeFiles/rrtstar_planner.dir/src/rrtstar_planner.cpp.o[0m
+[41.481s] [100%] [32m[1mLinking CXX shared library librrtstar_planner.so[0m
+[44.479s] [100%] Built target rrtstar_planner
+[44.495s] Invoked command in '/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner -- -j4 -l4
+[44.508s] Invoking command in '/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner
+[44.521s] -- Install configuration: ""
+[44.521s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/lib/librrtstar_planner.so
+[44.522s] -- Set non-toolchain portion of runtime path of "/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/lib/librrtstar_planner.so" to ""
+[44.522s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/include/
+[44.522s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/include//rrtstar_planner
+[44.522s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/include//rrtstar_planner/rrtstar_planner.hpp
+[44.522s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/rrtstar_plugin.xml
+[44.523s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/environment/library_path.sh
+[44.523s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/environment/library_path.dsv
+[44.523s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/ament_index/resource_index/package_run_dependencies/rrtstar_planner
+[44.523s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/ament_index/resource_index/parent_prefix_path/rrtstar_planner
+[44.524s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/environment/ament_prefix_path.sh
+[44.524s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/environment/ament_prefix_path.dsv
+[44.524s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/environment/path.sh
+[44.524s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/environment/path.dsv
+[44.524s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/local_setup.bash
+[44.524s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/local_setup.sh
+[44.525s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/local_setup.zsh
+[44.525s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/local_setup.dsv
+[44.525s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/package.dsv
+[44.526s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/ament_index/resource_index/packages/rrtstar_planner
+[44.526s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/ament_index/resource_index/nav2_core__pluginlib__plugin/rrtstar_planner
+[44.526s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/cmake/ament_cmake_export_include_directories-extras.cmake
+[44.526s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/cmake/ament_cmake_export_libraries-extras.cmake
+[44.526s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/cmake/ament_cmake_export_dependencies-extras.cmake
+[44.527s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/cmake/rrtstar_plannerConfig.cmake
+[44.527s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/cmake/rrtstar_plannerConfig-version.cmake
+[44.527s] -- Installing: /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/install/rrtstar_planner/share/rrtstar_planner/package.xml
+[44.531s] Invoked command in '/home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/max/Bachelor_Navel/NavelTrajectory/webots_ros/build/rrtstar_planner

@@ -1,0 +1,4 @@
+source;share/rrtstar_planner/local_setup.bash
+source;share/rrtstar_planner/local_setup.dsv
+source;share/rrtstar_planner/local_setup.sh
+source;share/rrtstar_planner/local_setup.zsh
