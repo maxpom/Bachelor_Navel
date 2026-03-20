@@ -1,8 +1,0 @@
-<library path="rrtstar_planner">
-  <class type="nav2_rrtstar_planner::RRTStar" 
-         base_class_type="nav2_core::GlobalPlanner">
-    <description>
-      RRT* global planner adapted from mmcza/TurtleBot-RRT-Star.
-    </description>
-  </class>
-</library>
