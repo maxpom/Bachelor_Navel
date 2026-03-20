@@ -1,9 +1,0 @@
-[console_scripts]
-metric_logger = my_package.metric_logger:main
-motion_detector = my_package.motion_detection:main
-navel_driver = my_package.navel_driver:main
-obstacle_avoider = my_package.obstacle_avoider:main
-odom_publisher = my_package.odom_publisher:main
-pedestrian_driver = my_package.pedestrian_driver:main
-room_navigation = my_package.room_navigation:main
-scan_republisher = my_package.scan_republisher:main
